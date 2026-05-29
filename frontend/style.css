@@ -1,0 +1,138 @@
+body {
+
+    margin: 0;
+    padding: 0;
+    font-family: Arial;
+    background: #0f172a;
+    color: white;
+}
+
+/* NAVBAR */
+
+.navbar {
+
+    background: #1e293b;
+    padding: 15px 30px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* CONTAINER */
+
+.container {
+
+    width: 85%;
+    margin: auto;
+    margin-top: 30px;
+}
+
+/* CARD */
+
+.card {
+
+    background: #1e293b;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+}
+
+/* INPUTS */
+
+input,
+select,
+textarea {
+
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #334155;
+    color: white;
+}
+
+/* BUTTON */
+
+button {
+
+    background: #2563eb;
+    color: white;
+
+    border: none;
+    padding: 12px 20px;
+
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* RESPONSE */
+
+pre {
+
+    background: black;
+    padding: 15px;
+    overflow-x: auto;
+}
+
+/* TABLE */
+
+table {
+
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+
+    border: 1px solid #475569;
+    padding: 10px;
+}
+
+/* AUTH */
+
+.auth-container {
+
+    width: 400px;
+
+    margin: 100px auto;
+
+    background: #1e293b;
+
+    padding: 30px;
+
+    border-radius: 12px;
+}
+
+/* TOGGLE */
+
+.toggle-box {
+
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.toggle-box button {
+
+    flex: 1;
+}
+
+.active {
+
+    background: #0ea5e9;
+}
+
+.hidden {
+
+    display: none;
+}
+
+.logout-btn {
+
+    background: red;
+}

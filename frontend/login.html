@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Authentication</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<div class="auth-container">
+
+    <div class="toggle-box">
+
+        <button id="loginBtn"
+                class="active"
+                onclick="showLogin()">
+
+            Login
+
+        </button>
+
+        <button id="registerBtn"
+                onclick="showRegister()">
+
+            Register
+
+        </button>
+
+    </div>
+
+    <!-- LOGIN -->
+
+    <div id="loginForm" class="form-box">
+
+        <h2>Login</h2>
+
+        <input type="email"
+               id="login_email"
+               placeholder="Email">
+
+        <input type="password"
+               id="login_password"
+               placeholder="Password">
+
+        <button onclick="login()">
+            Login
+        </button>
+
+    </div>
+
+    <!-- REGISTER -->
+
+    <div id="registerForm"
+         class="form-box hidden">
+
+        <h2>Register</h2>
+
+        <input type="text"
+               id="username"
+               placeholder="Username">
+
+        <input type="email"
+               id="email"
+               placeholder="Email">
+
+        <input type="password"
+               id="password"
+               placeholder="Password">
+
+        <button onclick="register()">
+            Register
+        </button>
+
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
