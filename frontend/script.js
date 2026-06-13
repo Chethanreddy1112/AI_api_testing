@@ -143,7 +143,10 @@ async function login() {
             'user_id',
             data.user_id
         );
-
+        localStorage.setItem(
+            'username',
+            data.username
+        );
         window.location.href = 'dashboard.html';
 
     } else {
@@ -278,17 +281,36 @@ async function loadHistory() {
     data.history.forEach(item => {
 
         rows += `
-        <tr>
-            <td>${item.method}</td>
-            <td>${item.url}</td>
-            <td>${item.status}</td>
-            <td>${item.result}</td>
-        </tr>
-        `;
+            <tr>
+                <td>${item.method}</td>
+                <td>${item.url}</td>
+                <td>
+                    <span class="badge badge-${item.status}">
+                        ${item.status}
+                    </span>
+                </td>
+                <td>${item.result}</td>
+            </tr>
+            `;
     });
 
     document.getElementById('historyTable')
         .innerHTML = rows;
+}
+
+window.onload = function(){
+
+    const username =
+        localStorage.getItem('username');
+
+    if(username){
+
+        document.getElementById('welcome')
+            .innerText =
+            "Welcome, " + username + " 👋";
+    }
+
+    loadHistory();
 }
 
 loadHistory();
