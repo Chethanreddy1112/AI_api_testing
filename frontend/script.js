@@ -192,7 +192,7 @@ async function sendRequest() {
 
 
     const response = await fetch(
-        'http://127.0.0.1:5000/test_api',
+        'https://ai-api-testing.onrender.com/test_api',
         {
             method: 'POST',
 
