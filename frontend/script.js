@@ -346,9 +346,6 @@ window.onload = function(){
 // ======================
 
 function logout() {
-
-    localStorage.clear();
-
-    window.location.href =
-        'login.html';
+    localStorage.removeItem("username");
+    window.location.href = "index.html";
 }

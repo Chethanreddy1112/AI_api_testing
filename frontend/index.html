@@ -1,54 +1,72 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
     <title>AI-Enhanced API Testing</title>
+
     <link rel="stylesheet" href="style.css">
+
 </head>
+
 <body>
 
-<div class="container">
-    <h1>AI-Enhanced API Testing Tool</h1>
+<div class="auth-container">
 
-    <div class="card">
-        <label>API URL</label>
-        <input type="text" id="url" placeholder="https://jsonplaceholder.typicode.com/posts">
+    <div class="logo-container">
 
-        <label>Method</label>
-        <select id="method">
-            <option>GET</option>
-            <option>POST</option>
-            <option>PUT</option>
-            <option>DELETE</option>
-        </select>
+        <img src="10329422.png"
+             alt="Project Logo"
+             class="logo">
 
-        <label>Headers (JSON)</label>
-        <textarea id="headers">{"Content-Type":"application/json"}</textarea>
+        <h1 class="project-title">
+            AI-Enhanced API Testing & Development Tool
+        </h1>
 
-        <label>Body (JSON)</label>
-        <textarea id="body">{
-    "title":"hello",
-    "body":"testing"
-}</textarea>
+        <p class="subtitle">
+            Smart API Testing with ML & GenAI
+        </p>
 
-        <button onclick="sendRequest()">Send Request</button>
     </div>
 
-    <div class="card">
-        <h2>API Response</h2>
-        <pre id="response"></pre>
+    <!-- LOGIN FORM -->
+
+    <div id="loginForm" class="form-box">
+
+        <h2>Login</h2>
+
+        <input type="email"
+               id="login_email"
+               placeholder="Email">
+
+        <input type="password"
+               id="login_password"
+               placeholder="Password">
+
+        <button onclick="login()">
+            Login
+        </button>
+
+        <button onclick="demoLogin()"
+                class="demo-btn">
+            Demo Login
+        </button>
+
+        <p class="demo-text">
+            Demo Email: <b>demo@gmail.com</b><br>
+            Password: <b>demo123</b>
+        </p>
+
     </div>
 
-    <div class="card">
-        <h2>ML Prediction</h2>
-        <div id="prediction"></div>
-    </div>
-
-    <div class="card">
-        <h2>AI Debugging Assistant</h2>
-        <div id="ai"></div>
-    </div>
 </div>
 
 <script src="script.js"></script>
+
 </body>
 </html>
