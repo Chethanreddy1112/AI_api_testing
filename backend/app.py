@@ -243,6 +243,40 @@ def test_api():
             'status_code': res.status_code,
             'response': response_json
         }
+        status = res.status_code
+
+        if status == 200:
+            result = "Success"
+
+        elif status == 201:
+            result = "Created Successfully"
+
+        elif status == 400:
+            result = "Bad Request"
+
+        elif status == 401:
+            result = "Authentication Error"
+
+        elif status == 403:
+            result = "Forbidden"
+
+        elif status == 404:
+            result = "Endpoint Not Found"
+
+        elif status == 405:
+            result = "Method Not Allowed"
+
+        elif status == 429:
+            result = "Rate Limit Exceeded"
+
+        elif 400 <= status < 500:
+            result = "Client Error"
+
+        elif 500 <= status < 600:
+            result = "Server Error"
+
+        else:
+            result = "Unknown"
 
         # =========================
         # MACHINE LEARNING
@@ -366,9 +400,10 @@ def test_api():
             api_url,
             method,
             status_code,
+            result,
             response_text
         )
-        VALUES(%s,%s,%s,%s,%s)
+        VALUES(%s,%s,%s,%s,%s,%s)
         """
 
         values = (
@@ -376,6 +411,7 @@ def test_api():
             url,
             method,
             res.status_code,
+            result,
             response_summary
         )
 
@@ -411,7 +447,12 @@ def history(user_id):
     try:
 
         query = """
-        SELECT method, api_url, status_code, response_text, created_at
+        SELECT method,
+            api_url,
+            status_code,
+            result,
+            response_text,
+            created_at
         FROM api_history
         WHERE user_id=%s
         ORDER BY id DESC
@@ -429,8 +470,9 @@ def history(user_id):
                 'method': item[0],
                 'url': item[1],
                 'status': item[2],
-                'response': item[3],
-                'date': str(item[4])
+                'result': item[3],
+                'response': item[4],
+                'date': str(item[5])
             })
 
         return jsonify({

@@ -3,10 +3,26 @@
 <head>
     <title>Register</title>
     <link rel="stylesheet" href="style.css">
+
+    <style>
+        #message {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .success {
+            color: limegreen;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
 </head>
 <body>
 
 <div class="card">
+
     <h1>Register</h1>
 
     <input type="text" id="username" placeholder="Username">
@@ -16,9 +32,98 @@
     <input type="password" id="password" placeholder="Password">
 
     <button onclick="register()">Register</button>
+
+    <p id="message"></p>
+
+    <p>
+        Already have an account?
+        <a href="login.html">Login</a>
+    </p>
+
 </div>
 
-<script src="script.js"></script>
+<script>
+
+async function register() {
+
+    const username = document.getElementById("username").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+
+    const message = document.getElementById("message");
+
+    message.innerHTML = "";
+    message.className = "";
+
+    // Username Validation
+    if (username.length < 3) {
+        message.innerHTML = "Username must contain at least 3 characters";
+        message.className = "error";
+        return;
+    }
+
+    // Email Validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email)) {
+        message.innerHTML = "Enter a valid email address";
+        message.className = "error";
+        return;
+    }
+
+    // Password Validation
+    if (password.length < 6) {
+        message.innerHTML = "Password must be at least 6 characters";
+        message.className = "error";
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            "http://127.0.0.1:5000/register",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    username,
+                    email,
+                    password
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        if (response.ok) {
+
+            message.innerHTML = "Registration successful!";
+            message.className = "success";
+
+            setTimeout(() => {
+                window.location.href = "login.html";
+            }, 1500);
+
+        } else {
+
+            message.innerHTML = data.message;
+            message.className = "error";
+
+        }
+
+    } catch (error) {
+
+        console.log(error);
+
+        message.innerHTML = "Server error";
+        message.className = "error";
+
+    }
+}
+
+</script>
 
 </body>
 </html>

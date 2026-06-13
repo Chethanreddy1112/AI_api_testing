@@ -38,37 +38,73 @@ function showRegister() {
 
 async function register() {
 
-    const username =
-        document.getElementById('username').value;
+    const username = document.getElementById("username").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const message = document.getElementById("message");
 
-    const email =
-        document.getElementById('email').value;
+    // Username validation
+    message.innerHTML = "";
+    message.style.color = "";
 
-    const password =
-        document.getElementById('password').value;
+    if(username.length < 3){
+        message.innerHTML = "Username must contain at least 3 characters";
+        message.style.color = "red";
+        return;
+    }
 
-    const response = await fetch(
-        'http://127.0.0.1:5000/register',
-        {
-            method: 'POST',
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-            headers: {
-                'Content-Type': 'application/json'
-            },
+    if(!emailRegex.test(email)){
+        message.innerHTML = "Enter a valid email address";
+        message.style.color = "red";
+        return;
+    }
 
-            body: JSON.stringify({
-                username,
-                email,
-                password
-            })
+    // Password validation
+    if(password.length < 6){
+        message.innerHTML = "Password must be at least 6 characters";
+        message.style.color = "red";
+        return;
+    }
+
+    try{
+
+        const response = await fetch(
+            "http://127.0.0.1:5000/register",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    username,
+                    email,
+                    password
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        if(response.ok){
+            message.innerHTML = "Registration successful!";
+            message.style.color = "lime";
+
+            setTimeout(()=>{
+                window.location.href = "login.html";
+            },1500);
+
+        } else {
+            message.innerHTML = data.message;
+            message.style.color = "red";
         }
-    );
 
-    const data = await response.json();
-
-    alert(data.message);
-
-    showLogin();
+    } catch(error){
+        message.innerHTML = "Server error";
+        message.style.color = "red";
+    }
 }
 
 // ======================
@@ -128,11 +164,20 @@ async function sendRequest() {
     const method =
         document.getElementById('method').value;
 
-    const headers =
+    let headers =
         document.getElementById('headers').value;
 
-    const body =
+    let body =
         document.getElementById('body').value;
+
+    try{
+        JSON.parse(headers || "{}");
+        JSON.parse(body || "{}");
+    }
+    catch(error){
+        alert("Invalid JSON in Headers or Body");
+        return;
+    }
 
     const user_id =
         localStorage.getItem('user_id');
@@ -237,6 +282,7 @@ async function loadHistory() {
             <td>${item.method}</td>
             <td>${item.url}</td>
             <td>${item.status}</td>
+            <td>${item.result}</td>
         </tr>
         `;
     });
