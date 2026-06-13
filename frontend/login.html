@@ -19,6 +19,7 @@
 <div class="auth-container">
 
     <div class="logo-container">
+
         <img src="10329422.png"
              alt="Project Logo"
              class="logo">
@@ -30,28 +31,10 @@
         <p class="subtitle">
             Smart API Testing with ML & GenAI
         </p>
-    </div>
-
-    <div class="toggle-box">
-
-        <button id="loginBtn"
-                class="active"
-                onclick="showLogin()">
-
-            Login
-
-        </button>
-
-        <button id="registerBtn"
-                onclick="showRegister()">
-
-            Register
-
-        </button>
 
     </div>
 
-    <!-- LOGIN -->
+    <!-- LOGIN FORM -->
 
     <div id="loginForm" class="form-box">
 
@@ -69,31 +52,16 @@
             Login
         </button>
 
-    </div>
-
-    <!-- REGISTER -->
-
-    <div id="registerForm"
-         class="form-box hidden">
-
-        <h2>Register</h2>
-
-        <input type="text"
-               id="username"
-               placeholder="Username">
-
-        <input type="email"
-               id="email"
-               placeholder="Email">
-
-        <input type="password"
-               id="password"
-               placeholder="Password">
-
-        <button onclick="register()">
-            Register
+        <button onclick="demoLogin()"
+                class="demo-btn">
+            Demo Login
         </button>
-        <p id="message"></p>
+
+        <p class="demo-text">
+            Demo Email: <b>demo@gmail.com</b><br>
+            Password: <b>demo123</b>
+        </p>
+
     </div>
 
 </div>
@@ -101,5 +69,4 @@
 <script src="script.js"></script>
 
 </body>
-
 </html>
