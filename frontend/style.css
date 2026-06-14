@@ -199,3 +199,32 @@ td {
     color: #94a3b8;
     margin-bottom: 20px;
 }
+#welcome{
+    margin: 20px;
+    color: #4CAF50;
+    font-size: 22px;
+    font-weight: bold;
+}
+.badge{
+    padding: 5px 12px;
+    border-radius: 20px;
+    color: white;
+    font-weight: bold;
+}
+
+.badge-200,
+.badge-201{
+    background: green;
+}
+
+.badge-400,
+.badge-401,
+.badge-403,
+.badge-404,
+.badge-429{
+    background: orange;
+}
+
+.badge-500{
+    background: red;
+}
