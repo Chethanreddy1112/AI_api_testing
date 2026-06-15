@@ -4,7 +4,6 @@ import requests
 import json
 import pandas as pd
 import joblib
-import mysql.connector
 import os
 from openai import OpenAI
 from dotenv import load_dotenv
@@ -33,15 +32,7 @@ client = OpenAI(
 # MYSQL CONNECTION
 # =========================
 
-db = mysql.connector.connect(
-    host=os.getenv("DB_HOST"),
-    port=int(os.getenv("DB_PORT", 3306)),
-    user=os.getenv("DB_USER"),
-    password=os.getenv("DB_PASSWORD"),
-    database=os.getenv("DB_NAME")
-)
 
-cursor = db.cursor(buffered=True)
 
 # =========================
 # LOAD ML MODEL
@@ -61,97 +52,6 @@ def home():
     })
 
 # =========================
-# REGISTER API
-# =========================
-
-@app.route('/register', methods=['POST'])
-def register():
-
-    try:
-
-        data = request.json
-
-        username = data['username']
-        email = data['email']
-        password = data['password']
-
-        query = """
-        INSERT INTO users(username,email,password)
-        VALUES(%s,%s,%s)
-        """
-
-        values = (
-            username,
-            email,
-            password
-        )
-
-        cursor.execute(query, values)
-        db.commit()
-
-        return jsonify({
-            'success': True,
-            'message': 'User Registered Successfully'
-        })
-
-    except Exception as e:
-
-        return jsonify({
-            'success': False,
-            'error': str(e)
-        })
-
-# =========================
-# LOGIN API
-# =========================
-
-@app.route('/login', methods=['POST'])
-def login():
-
-    try:
-
-        data = request.json
-
-        email = data['email']
-        password = data['password']
-
-        query = """
-        SELECT * FROM users
-        WHERE email=%s AND password=%s
-        """
-
-        values = (
-            email,
-            password
-        )
-
-        cursor.execute(query, values)
-
-        user = cursor.fetchone()
-
-        if user:
-
-            return jsonify({
-                'success': True,
-                'user_id': user[0],
-                'username': user[1]
-            })
-
-        else:
-
-            return jsonify({
-                'success': False,
-                'message': 'Invalid Credentials'
-            })
-
-    except Exception as e:
-
-        return jsonify({
-            'success': False,
-            'error': str(e)
-        })
-
-# =========================
 # API TESTING
 # =========================
 
@@ -164,8 +64,6 @@ def test_api():
 
         url = data['url']
         method = data['method']
-
-        user_id = data.get('user_id', 1)
 
         # =========================
         # HEADERS
@@ -392,35 +290,6 @@ def test_api():
             response_summary = "Text response received"
 
         # =========================
-        # SAVE HISTORY
-        # =========================
-
-        query = """
-        INSERT INTO api_history(
-            user_id,
-            api_url,
-            method,
-            status_code,
-            result,
-            response_text
-        )
-        VALUES(%s,%s,%s,%s,%s,%s)
-        """
-
-        values = (
-            user_id,
-            url,
-            method,
-            res.status_code,
-            result,
-            response_summary
-        )
-
-        cursor.execute(query, values)
-
-        db.commit()
-
-        # =========================
         # FINAL RESPONSE
         # =========================
 
@@ -428,6 +297,7 @@ def test_api():
             'success': True,
             'response': response_data,
             'prediction': str(prediction),
+            'result': result,
             'ai_suggestion': ai_text
         })
 
@@ -442,51 +312,6 @@ def test_api():
 # API HISTORY
 # =========================
 
-@app.route('/history/<int:user_id>', methods=['GET'])
-def history(user_id):
-
-    try:
-
-        query = """
-        SELECT method,
-            api_url,
-            status_code,
-            result,
-            response_text,
-            created_at
-        FROM api_history
-        WHERE user_id=%s
-        ORDER BY id DESC
-        """
-
-        cursor.execute(query, (user_id,))
-
-        history = cursor.fetchall()
-
-        history_data = []
-
-        for item in history:
-
-            history_data.append({
-                'method': item[0],
-                'url': item[1],
-                'status': item[2],
-                'result': item[3],
-                'response': item[4],
-                'date': str(item[5])
-            })
-
-        return jsonify({
-            'success': True,
-            'history': history_data
-        })
-
-    except Exception as e:
-
-        return jsonify({
-            'success': False,
-            'error': str(e)
-        })
 
 # =========================
 # RUN APP
