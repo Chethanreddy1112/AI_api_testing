@@ -1,108 +1,67 @@
-// ======================
-// TOGGLE LOGIN REGISTER
-// ======================
-
-if(!localStorage.getItem("user")){
-
-    localStorage.setItem(
-        "user",
-        JSON.stringify({
-            username: " ",
-            email: "demo@gmail.com",
-            password: "demo123"
-        })
-    );
-}
-function showLogin() {
-
-    document.getElementById('loginForm')
-        .classList.remove('hidden');
-
-    document.getElementById('registerForm')
-        .classList.add('hidden');
-
-    document.getElementById('loginBtn')
-        .classList.add('active');
-
-    document.getElementById('registerBtn')
-        .classList.remove('active');
-}
-
-// function showRegister() {
-
-//     document.getElementById('registerForm')
-//         .classList.remove('hidden');
-
-//     document.getElementById('loginForm')
-//         .classList.add('hidden');
-
-//     document.getElementById('registerBtn')
-//         .classList.add('active');
-
-//     document.getElementById('loginBtn')
-//         .classList.remove('active');
-// }
+// const BACKEND_URL = "https://ai-api-testing.onrender.com";
+const BACKEND_URL = "http://127.0.0.1:5000";
 
 // ======================
 // REGISTER
 // ======================
 
-// async function register() {
+async function register() {
 
-//     const username = document.getElementById("username").value.trim();
-//     const email = document.getElementById("email").value.trim();
-//     const password = document.getElementById("password").value.trim();
-//     const message = document.getElementById("message");
+    const username = document
+        .getElementById("username")
+        .value.trim();
 
-//     // Username validation
-//     message.innerHTML = "";
-//     message.style.color = "";
+    const email = document
+        .getElementById("email")
+        .value.trim();
 
-//     if(username.length < 3){
-//         message.innerHTML = "Username must contain at least 3 characters";
-//         message.style.color = "red";
-//         return;
-//     }
+    const password = document
+        .getElementById("password")
+        .value.trim();
 
-//     // Email validation
-//     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!username || !email || !password) {
+        alert("Please fill all fields");
+        return;
+    }
 
-//     if(!emailRegex.test(email)){
-//         message.innerHTML = "Enter a valid email address";
-//         message.style.color = "red";
-//         return;
-//     }
+    try {
 
-//     // Password validation
-//     if(password.length < 6){
-//         message.innerHTML = "Password must be at least 6 characters";
-//         message.style.color = "red";
-//         return;
-//     }
+        const response = await fetch(
+            `${BACKEND_URL}/register`,
+            {
+                method: "POST",
 
-//     const user = {
-//         username,
-//         email,
-//         password
-//     };
+                headers: {
+                    "Content-Type": "application/json"
+                },
 
-//     localStorage.setItem(
-//         "user",
-//         JSON.stringify(user)
-//     );
+                body: JSON.stringify({
+                    username,
+                    email,
+                    password
+                })
+            }
+        );
 
-//     message.innerHTML =
-//         "Registration Successful!";
+        const data = await response.json();
 
-//     message.style.color =
-//         "lime";
+        if (response.ok) {
 
-//     setTimeout(() => {
+            alert("Registration successful");
+            showLogin();
 
-//         showLogin();
+        } else {
 
-//     }, 1500);
-// }
+            alert(data.error || data.message);
+        }
+
+    } catch (error) {
+
+        console.error(error);
+        alert("Server Error");
+    }
+}
+
 
 // ======================
 // LOGIN
@@ -110,65 +69,87 @@ function showLogin() {
 
 async function login() {
 
-    const email =
-        document.getElementById('login_email')
+    const email = document
+        .getElementById("login_email")
         .value.trim();
 
-    const password =
-        document.getElementById('login_password')
+    const password = document
+        .getElementById("login_password")
         .value.trim();
 
-    // Validation
-    if(email === "" || password === ""){
+    if (!email || !password) {
 
         alert("Please fill all fields");
         return;
     }
 
-    const user = JSON.parse(
-        localStorage.getItem("user")
-    );
+    try {
 
-    if(
-        user &&
-        email === user.email &&
-        password === user.password
-    ){
+        const response = await fetch(
+            `${BACKEND_URL}/login`,
+            {
+                method: "POST",
 
-        localStorage.setItem(
-            'username',
-            user.username
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    email,
+                    password
+                })
+            }
         );
-<<<<<<< HEAD
-        localStorage.setItem(
-            'username',
-            data.username
-        );
-        window.location.href = 'dashboard.html';
-=======
 
-        window.location.href =
-            'dashboard.html';
->>>>>>> 76395ef329b603547a70f0cc06005d3c1e1c087d
+        const data = await response.json();
 
-    } else {
+        if (data.token) {
 
-        alert("Invalid Credentials");
+            localStorage.setItem(
+                "token",
+                data.token
+            );
+
+            localStorage.setItem(
+                "username",
+                data.user.username
+            );
+
+            window.location.href =
+                "dashboard.html";
+
+        } else {
+
+            alert(data.message || "Invalid credentials");
+        }
+
+    } catch (error) {
+
+        console.error(error);
+        alert("Server Error");
     }
 }
-function demoLogin(){
 
-    document.getElementById(
-        'login_email'
-    ).value = "demo@gmail.com";
+function showRegister() {
 
-    document.getElementById(
-        'login_password'
-    ).value = "demo123";
+    document
+        .getElementById("loginForm")
+        .classList.add("hidden");
 
-    alert(
-        "Demo credentials loaded!"
-    );
+    document
+        .getElementById("registerForm")
+        .classList.remove("hidden");
+}
+
+function showLogin() {
+
+    document
+        .getElementById("registerForm")
+        .classList.add("hidden");
+
+    document
+        .getElementById("loginForm")
+        .classList.remove("hidden");
 }
 
 // ======================
@@ -178,210 +159,224 @@ function demoLogin(){
 async function sendRequest() {
 
     const url =
-        document.getElementById('url').value;
+        document.getElementById("url").value;
 
     const method =
-        document.getElementById('method').value;
+        document.getElementById("method").value;
 
-    let headers =
-        document.getElementById('headers').value;
+    const headers =
+        document.getElementById("headers").value || "{}";
 
-    let body =
-        document.getElementById('body').value;
+    const body =
+        document.getElementById("body").value || "{}";
 
-    try{
-        JSON.parse(headers || "{}");
-        JSON.parse(body || "{}");
-    }
-    catch(error){
-        alert("Invalid JSON in Headers or Body");
+    try {
+
+        JSON.parse(headers);
+        JSON.parse(body);
+
+    } catch {
+
+        alert("Invalid JSON");
         return;
     }
 
+    const token =
+        localStorage.getItem("token");
 
-    const response = await fetch(
-        'https://ai-api-testing.onrender.com/test_api',
-        {
-            method: 'POST',
+    try {
 
-            headers: {
-                'Content-Type': 'application/json'
-            },
+        const response = await fetch(
+            `${BACKEND_URL}/test_api`,
+            {
+                method: "POST",
 
-            body: JSON.stringify({
-                url,
-                method,
-                headers,
-                body
-            })
-        }
-    );
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
 
-    const data = await response.json();
+                body: JSON.stringify({
+                    url,
+                    method,
+                    headers,
+                    body
+                })
+            }
+        );
 
-    console.log(data);
+        const data = await response.json();
 
-    // RESPONSE
-
-    if(data.response){
-
-        document.getElementById('response')
-        .innerText = JSON.stringify(
-            data.response,
+        document.getElementById(
+            "response"
+        ).innerText = JSON.stringify(
+            data.response || {},
             null,
             4
         );
 
-    }else{
+        document.getElementById(
+            "prediction"
+        ).innerText =
+            data.prediction || "No Prediction";
 
-        document.getElementById('response')
-        .innerText = "No Response";
+        document.getElementById(
+            "ai"
+        ).innerText =
+            data.ai_suggestion || "No AI Suggestion";
+
+        if (data.error) {
+            alert(data.error);
+        }
+
+        loadHistory();
+
+    } catch (error) {
+
+        console.error(error);
+        alert("Request Failed");
     }
-
-    // ML PREDICTION
-
-    if(data.prediction){
-
-        document.getElementById('prediction')
-        .innerText = data.prediction;
-
-    }else{
-
-        document.getElementById('prediction')
-        .innerText = "No Prediction";
-    }
-
-    // AI
-
-    if(data.ai_suggestion){
-
-        document.getElementById('ai')
-        .innerText = data.ai_suggestion;
-
-    }else{
-
-        document.getElementById('ai')
-        .innerText = "No AI Suggestion";
-    }
-
-    // ERROR
-
-    if(data.error){
-
-        alert(data.error);
-    }
-    let history = JSON.parse(
-        localStorage.getItem("history")
-    ) || [];
-
-    history.unshift({
-
-        method: method,
-
-        url: url,
-
-        status: data.response.status_code,
-
-        result: data.result || "Success"
-
-    });
-
-    localStorage.setItem(
-        "history",
-        JSON.stringify(history)
-    );
-
-    loadHistory();
 }
+
 
 // ======================
 // LOAD HISTORY
 // ======================
 
-function loadHistory() {
+async function loadHistory() {
 
-    let history = JSON.parse(
-        localStorage.getItem("history")
-    ) || [];
+    const token =
+        localStorage.getItem("token");
 
-    let rows = '';
+    if (!token) return;
 
-    history.forEach(item => {
+    try {
 
-        rows += `
+        const response = await fetch(
+            `${BACKEND_URL}/history`,
+            {
+                headers: {
+                    "Authorization":
+                        `Bearer ${token}`
+                }
+            }
+        );
+
+        const history =
+            await response.json();
+
+        let rows = "";
+
+        history.forEach(item => {
+
+            rows += `
             <tr>
                 <td>${item.method}</td>
-                <td>${item.url}</td>
-<<<<<<< HEAD
-=======
 
->>>>>>> 76395ef329b603547a70f0cc06005d3c1e1c087d
+                <td>${item.api_url}</td>
+
                 <td>
-                    <span class="badge badge-${item.status}">
-                        ${item.status}
+                    <span class="badge ${getBadgeClass(item.response_code)}">
+                        ${item.response_code}
                     </span>
                 </td>
-<<<<<<< HEAD
+
                 <td>${item.result}</td>
+
+                <td>${new Date(item.created_at)
+                        .toLocaleString()}</td>
             </tr>
             `;
-=======
+        });
 
-                <td>${item.result}</td>
-            </tr>
-        `;
->>>>>>> 76395ef329b603547a70f0cc06005d3c1e1c087d
-    });
+        const table =
+            document.getElementById(
+                "historyTable"
+            );
 
-    const table = document.getElementById('historyTable');
+        if (table) {
+            table.innerHTML = rows;
+        }
 
-    if(table){
-        table.innerHTML = rows;
+    } catch (error) {
+
+        console.error(error);
     }
 }
 
-<<<<<<< HEAD
-window.onload = function(){
 
-    const username =
-        localStorage.getItem('username');
+// ======================
+// SHOW LOGIN
+// ======================
 
-    if(username){
+function showLogin() {
 
-        document.getElementById('welcome')
-            .innerText =
-            "Welcome, " + username + " 👋";
-    }
+    document
+        .getElementById("loginForm")
+        .classList.remove("hidden");
 
-    loadHistory();
+    document
+        .getElementById("registerForm")
+        .classList.add("hidden");
 }
 
-loadHistory();
-=======
+
 // ======================
-// PAGE LOAD
+// SHOW REGISTER
 // ======================
->>>>>>> 76395ef329b603547a70f0cc06005d3c1e1c087d
 
-window.onload = function(){
+function showRegister() {
 
-    const username =
-        localStorage.getItem('username');
+    document
+        .getElementById("registerForm")
+        .classList.remove("hidden");
 
-    if(username){
+    document
+        .getElementById("loginForm")
+        .classList.add("hidden");
+}
 
-        document.getElementById('welcome')
-            .innerText =
-            "Welcome, " + username + " 👋";
-    }
 
-    loadHistory();
-};
 // ======================
 // LOGOUT
 // ======================
 
 function logout() {
-    localStorage.removeItem("username");
-    window.location.href = "index.html";
+
+    localStorage.removeItem(
+        "token"
+    );
+
+    localStorage.removeItem(
+        "username"
+    );
+
+    window.location.href =
+        "index.html";
 }
+
+
+// ======================
+// PAGE LOAD
+// ======================
+
+window.onload = function () {
+
+    const username =
+        localStorage.getItem(
+            "username"
+        );
+
+    const welcome =
+        document.getElementById(
+            "welcome"
+        );
+
+    if (username && welcome) {
+
+        welcome.innerText =
+            `Welcome, ${username} 👋`;
+    }
+
+    loadHistory();
+};

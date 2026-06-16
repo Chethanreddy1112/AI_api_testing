@@ -8,65 +8,104 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>AI-Enhanced API Testing</title>
+    <title>AI-Enhanced API Testing Tool</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+          href="style.css">
 
 </head>
 
 <body>
 
-<div class="auth-container">
+    <div class="auth-container">
 
-    <div class="logo-container">
+        <!-- Logo Section -->
 
-        <img src="10329422.png"
-             alt="Project Logo"
-             class="logo">
+        <div class="logo-container">
 
-        <h1 class="project-title">
-            AI-Enhanced API Testing & Development Tool
-        </h1>
+            <img src="10329422.png"
+                 alt="Project Logo"
+                 class="logo">
 
-        <p class="subtitle">
-            Smart API Testing with ML & GenAI
-        </p>
+            <h1 class="project-title">
+                AI-Enhanced API Testing &
+                Development Tool
+            </h1>
+
+            <p class="subtitle">
+                Smart API Testing with ML & GenAI
+            </p>
+
+        </div>
+
+        <!-- LOGIN FORM -->
+
+        <div id="loginForm"
+             class="form-box">
+
+            <h2>Login</h2>
+
+            <input type="email"
+                   id="login_email"
+                   placeholder="Enter Email">
+
+            <input type="password"
+                   id="login_password"
+                   placeholder="Enter Password">
+
+            <button onclick="login()">
+                Login
+            </button>
+
+            <p class="switch-text">
+                Don't have an account?
+
+                <a href="#"
+                   onclick="showRegister()">
+                    Register
+                </a>
+            </p>
+
+        </div>
+
+        <!-- REGISTER FORM -->
+
+        <div id="registerForm"
+             class="form-box hidden">
+
+            <h2>Register</h2>
+
+            <input type="text"
+                   id="username"
+                   placeholder="Enter Username">
+
+            <input type="email"
+                   id="email"
+                   placeholder="Enter Email">
+
+            <input type="password"
+                   id="password"
+                   placeholder="Enter Password">
+
+            <button onclick="register()">
+                Register
+            </button>
+
+            <p class="switch-text">
+                Already have an account?
+
+                <a href="#"
+                   onclick="showLogin()">
+                    Login
+                </a>
+            </p>
+
+        </div>
 
     </div>
 
-    <!-- LOGIN FORM -->
-
-    <div id="loginForm" class="form-box">
-
-        <h2>Login</h2>
-
-        <input type="email"
-               id="login_email"
-               placeholder="Email">
-
-        <input type="password"
-               id="login_password"
-               placeholder="Password">
-
-        <button onclick="login()">
-            Login
-        </button>
-
-        <button onclick="demoLogin()"
-                class="demo-btn">
-            Demo Login
-        </button>
-
-        <p class="demo-text">
-            Demo Email: <b>demo@gmail.com</b><br>
-            Password: <b>demo123</b>
-        </p>
-
-    </div>
-
-</div>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 
 </body>
+
 </html>

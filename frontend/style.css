@@ -228,3 +228,18 @@ td {
 .badge-500{
     background: red;
 }
+
+.hidden {
+    display: none;
+}
+
+.switch-text {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.switch-text a {
+    text-decoration: none;
+    color: #00bfff;
+    font-weight: bold;
+}
